@@ -1,0 +1,2 @@
+PATH = '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:'
+0 3 * * *   root /usr/local/s3backup/backup.py 2>&1
