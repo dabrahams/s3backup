@@ -225,6 +225,12 @@ try:
         for d in MOUNTS + ['aux', 'dumps']:
             require_dirs(ARCHIVE/d)
 
+        # Set up $HOME so there's no chance of confusing gpg.  When
+        # people use sudo it normally doesn't change $HOME to
+        # correspond to the target user, but then gpg looks for keys
+        # in the wrong places.
+        os.environ['HOME'] = os.path.expanduser('~')
+
         os.environ['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
         os.environ['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 
