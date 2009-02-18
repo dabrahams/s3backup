@@ -37,13 +37,14 @@ http://github.com/techarcana/s3backup and unpack the result, or ::
 
 then::
 
-  $ sudo chown root:root s3backup
+  $ sudo chown -R root:root s3backup
   $ sudo mv s3backup/etc/cron.d/* /etc/cron.d
   $ sudo cp s3backup/aws_secrets.py.sample s3backup/aws_secrets.py
   $ sudo mv s3backup /usr/local
-
-and edit your private information into ``/usr/local/s3backup/aws_secrets.py``.  Finally::
-
   $ sudo chmod 0600 /usr/local/s3backup/aws_secrets.py
+
+now edit your private information into
+``/usr/local/s3backup/aws_secrets.py``.  Finally::
+
 
 That should do it!
