@@ -35,7 +35,7 @@ http://github.com/techarcana/s3backup and unpack the result, or ::
 
   $ git-clone git://github.com/techarcana/s3backup.git
 
-then
+then::
 
   $ sudo chown root:root s3backup
   $ sudo mv s3backup/etc/cron.d/* /etc/cron.d
