@@ -228,8 +228,10 @@ try:
         # Set up $HOME so there's no chance of confusing gpg.  When
         # people use sudo it normally doesn't change $HOME to
         # correspond to the target user, but then gpg looks for keys
-        # in the wrong places.
-        os.environ['HOME'] = os.path.expanduser('~')
+        # in the wrong places.  Also, expanduser('~') just looks at
+        # the value of $HOME, so you need to explicitly request the
+        # current user's home directory
+        os.environ['HOME'] = os.path.expanduser('~' + os.environ['USER'])
 
         os.environ['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
         os.environ['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
