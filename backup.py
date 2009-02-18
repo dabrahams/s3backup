@@ -16,16 +16,16 @@ LVM_SNAPSHOT_SIZE='5G'
 class path(str):
     def __div__(self, suffix):
         return path(os.path.join(self,suffix.lstrip('/')))
+
     def __rdiv__(self, prefix):
         return path(os.path.join(prefix,self.lstrip('/')))
     
     def __add__(self, suffix):
         return path(str.__add__(self,suffix))
-    #def __radd__(self, prefix):
-    #    return path(prefix + str(self))
 
     def basename(self):
         return path(os.path.basename(self))
+
     def dirname(self):
         return path(os.path.dirname(self))
 
@@ -84,8 +84,13 @@ def duplicity(target_dir, command = '', verbose=VERBOSE and '-v4' or ''):
         system('duplicity %(command)s %(verbose)s %(uri)r' % locals())
     except:
         # Attempt to clean up extraneous duplicity files
-        try: system('duplicity cleanup %(verbose)s %(uri)r' % locals())
-        except: pass
+        os.environ['PASSPHRASE'] = PASSPHRASE
+        try: 
+            system('duplicity cleanup %(verbose)s %(uri)r' % locals())
+        except: 
+            pass
+        finally: 
+            del os.environ['PASSPHRASE']
         raise
             
 
