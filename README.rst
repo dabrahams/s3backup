@@ -43,8 +43,6 @@ then::
   $ sudo mv s3backup /usr/local
   $ sudo chmod 0600 /usr/local/s3backup/aws_secrets.py
 
-now edit your private information into
-``/usr/local/s3backup/aws_secrets.py``.  Finally::
+now edit your private information into ``/usr/local/s3backup/aws_secrets.py``.
 
-
-That should do it!
+And that should do it!
