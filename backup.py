@@ -39,11 +39,21 @@ VERBOSE=False
 def system(cmd):
     if VERBOSE:
         log(sys.argv[0]+':',cmd)
-    p = subprocess.Popen(cmd, shell=True)
-    p.wait()
+
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+
+    stdout,stderr = p.communicate()
+
+    if VERBOSE:
+        if stdout:
+            log('stdout: ', stdout)
+        if stderr:
+            log('stderr: ', stderr)
+
     err = p.returncode
+
     if err:
-        raise OSError, 'failed system command with returncode %s:\n%r' % (err,cmd)
+        raise OSError, 'failed system command with returncode %s:\n%r\n%s' % (err,cmd,stderr)
 
 mount_re=re.compile('^[^ ]+ %s/(.*)(?: [^ ]+){4}\n' % re.escape(MNT), re.MULTILINE)
 def mounts():
@@ -230,9 +240,6 @@ try:
             duplicity(target, command = 'remove-older-than 3M')
 
         log('Backup succeeded')
-    except:
-        log('*** Error ***')
-        raise
     finally:
         cleanup()
 finally:
