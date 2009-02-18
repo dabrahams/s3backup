@@ -39,7 +39,7 @@ then::
 
   $ sudo chown root:root s3backup
   $ sudo mv s3backup/etc/cron.d/* /etc/cron.d
-  $ sudo cp s3backup/aws_secrets.py.sample aws_secrets.py
+  $ sudo cp s3backup/aws_secrets.py.sample s3backup/aws_secrets.py
   $ sudo mv s3backup /usr/local
 
 and edit your private information into ``/usr/local/s3backup/aws_secrets.py``.  Finally::
