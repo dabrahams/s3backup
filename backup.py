@@ -114,10 +114,13 @@ def cleanup(preamble = False):
     if zfs_fuse_is_running():
         zfs_fuse_clean_emulated_snapshot_mounts()
 
-def duplicity(target_dir, command = '', verbose=VERBOSE and '-v4' or ''):
+def duplicity(target_dir, command = '', tail_args = '', verbose=None):
+    if verbose is None:
+        verbose = VERBOSE and '-v4' or ''
+
     uri = 's3+http://' + BUCKET + '/' + target_dir
     try:
-        system('duplicity %(command)s %(verbose)s %(uri)r' % locals(), DRY_REMOTE)
+        system('duplicity %(command)s %(verbose)s %(uri)r %(tail_args)s' % locals(), DRY_REMOTE)
     except:
         # Attempt to clean up extraneous duplicity files
         os.environ['PASSPHRASE'] = PASSPHRASE
@@ -131,7 +134,7 @@ def duplicity(target_dir, command = '', verbose=VERBOSE and '-v4' or ''):
 
             
 
-def duplicity_backup(source_dir, target_dir, opts='', verbose=VERBOSE and '-v4' or ''):
+def duplicity_backup(source_dir, target_dir, opts='', verbose=None):
     archive_dir = ARCHIVE/target_dir
     require_dirs(archive_dir)
     pubkey = PUBKEY
