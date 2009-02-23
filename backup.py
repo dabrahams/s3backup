@@ -262,6 +262,7 @@ def zfs_destroy_snapshot(pool):
     return zfs_destroy(zfs_snapshot_name(pool), options=['-R','-f'])
 
 def zfs_path_needs_backup(zpath):
+    zpath = zpath.rstrip('/')
     for pat in ZFS_VOLS:
         if fnmatch(zpath, pat):
             return True
@@ -309,13 +310,14 @@ def run():
                 log('Binding ZFS snapshots...')
                 for match in zfs_list():
                     zpath, snap, zfs_mountpoint = match.group('zpath','snap','mountpoint')
-                    if zfs_mountpoint.endswith(ZFS_SNAP_RELPATH) \
-                            and zfs_path_needs_backup(zpath):
 
-                        # In case of zfs-fuse workaround, drop
-                        # additional cruft from zpath
-                        mount_path = zpath.rsplit(ZFS_SNAP_RELPATH,1)[0]
-                        mount_bind(zfs_mountpoint, path('zfs')/mount_path)
+                    # In case of zfs-fuse workaround, drop
+                    # additional cruft from zpath
+                    source_zpath = zpath.rsplit(ZFS_SNAP_RELPATH,1)[0]
+
+                    if zfs_mountpoint.endswith(ZFS_SNAP_RELPATH) \
+                            and zfs_path_needs_backup(source_zpath):
+                        mount_bind(zfs_mountpoint, path('zfs')/source_zpath)
 
             log('Binding un-snapshottable filesystems...')
             for d in BIND_DIRS:
