@@ -395,10 +395,10 @@ def run():
 
             log('Backup succeeded')
         except:
-            log('************* ERROR ****************')
-            system('zfs list')
-            system('mount')
-            log('************* ERROR ****************')
+            # cleanup actions can sometimes obscure the location of
+            # the error, since it gets reported when the exception
+            # leaves the app; this tends to help clarify things.
+            log('************* ERROR OCCURRED HERE ****************')
             raise
         finally:
             cleanup()
