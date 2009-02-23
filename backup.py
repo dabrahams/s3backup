@@ -180,9 +180,6 @@ def zfs_snapshot_name(pool):
 def zfs_snapshot_path(pool, rooted = False):
     return path('/') / pool / '.zfs' / 'snapshot' / ZFS_SNAP_NAME
 
-def zfs_fuse_clone_path(pool):
-    return path(pool) / '.zfs.snapshot' / ZFS_SNAP_NAME
-
 # Is there a ZFS-FUSE daemon running?
 _zfs_fuse_is_running_=None # initially unknown
 def zfs_fuse_is_running():
